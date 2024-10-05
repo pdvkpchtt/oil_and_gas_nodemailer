@@ -15,6 +15,10 @@ app.use(
 );
 app.use(express.json()); // из за этой строки я убил все нервные клетки
 
+app.get("/", async (req, res) => {
+  res.send("Hello mir");
+});
+
 app.post("/sendmail_shloos", async (req, res) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -28,7 +32,7 @@ app.post("/sendmail_shloos", async (req, res) => {
 
     const mailOptions = {
       from: "yndx-kabirov-d@yandex.ru",
-      to: "kabirdanilov14@gmail.com",
+      to: "ssc-solutions@yandex.ru",
       subject: `Запрос от клиента`,
       html: `<div>
               <h1>Запрос от клиента</h1>
