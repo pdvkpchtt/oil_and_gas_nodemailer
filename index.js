@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const nodemailer = require("nodemailer");
 const app = express();
 const server = require("http").createServer(app);
@@ -10,6 +11,7 @@ app.set("view engine", "ejs");
 app.use(
   cors({
     origin: "https://ssc-solutions.ru",
+    // origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -22,17 +24,17 @@ app.get("/", async (req, res) => {
 app.post("/sendmail_shloos", async (req, res) => {
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.yandex.ru",
-      port: "465",
+      host: process.env.HOST,
+      port: process.env.PORT,
       auth: {
-        user: "yndx-kabirov-d@yandex.ru",
-        pass: "epehdzfdajtkjshr",
+        user: process.env.USER,
+        pass: process.env.PASS,
       },
     });
 
     const mailOptions = {
-      from: "yndx-kabirov-d@yandex.ru",
-      to: "ssc-solutions@yandex.ru",
+      from: process.env.MAIL,
+      to: process.env.MAIL,
       subject: `Запрос от клиента`,
       html: `<div>
               <h1>Запрос от клиента</h1>
@@ -58,6 +60,7 @@ app.post("/sendmail_shloos", async (req, res) => {
 
     res.send({ status: "good" });
   } catch (err) {
+    console.log(err);
     res.send({ status: "bad" });
   }
 });
